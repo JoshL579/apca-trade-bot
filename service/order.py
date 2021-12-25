@@ -19,6 +19,7 @@ def maintain_order(symbol):
         current_value = current_position.get("market_value")
         entry_value = current_position.get("cost_basis")
         amount_to_buy = float(entry_value) - float(current_value)
+        print('Increase One!')
         return place_one_order(symbol, amount_to_buy)
 
     if direction == 'S':
@@ -26,5 +27,5 @@ def maintain_order(symbol):
         current_value = current_position.get("market_value")
         entry_value = current_position.get("cost_basis")
         percentage = str((float(current_value) - float(entry_value)) / float(current_value) * 100)
-
+        print('Reduced One!')
         return close_one_position(symbol, percentage)
