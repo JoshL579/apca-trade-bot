@@ -1,6 +1,5 @@
 from service.loop import maintain_loop
-
-symbol = 'QQQ'
+from config import watching_symbol
 
 if __name__ == '__main__':
-    maintain_loop(symbol)
+    maintain_loop(watching_symbol)
