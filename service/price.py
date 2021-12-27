@@ -19,7 +19,7 @@ def calculate_price(symbol, bias):
     if position.get('code') == 40410000 or position.get('code') == 40010001:
         return False
 
-    diff = float(position.get('current_price')) - float(position.get('avg_entry_price'))
+    diff = float(position.get('market_value')) - float(position.get('cost_basis'))
 
     # case: raised
     if diff > 0:
