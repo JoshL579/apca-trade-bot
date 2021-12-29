@@ -7,6 +7,7 @@ from config import bias_to_place_new_order
 def maintain_order(symbol):
     # already have unfulfilled order waiting for process
     if len(get_orders()) > 0:
+        print(get_orders())
         return True
 
     direction = calculate_price(symbol, bias_to_place_new_order)
@@ -19,7 +20,7 @@ def maintain_order(symbol):
         current_value = current_position.get("market_value")
         entry_value = current_position.get("cost_basis")
         amount_to_buy = float(entry_value) - float(current_value)
-        print('Increase One!')
+        print('Increase One:', amount_to_buy)
         return place_one_order(symbol, amount_to_buy)
 
     if direction == 'S':
@@ -27,5 +28,7 @@ def maintain_order(symbol):
         current_value = current_position.get("market_value")
         entry_value = current_position.get("cost_basis")
         percentage = str((float(current_value) - float(entry_value)) / float(current_value) * 100)
-        print('Reduced One!')
+        print('Reduced One:', percentage + '/100')
         return close_one_position(symbol, percentage)
+
+    return False

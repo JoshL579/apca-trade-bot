@@ -1,15 +1,4 @@
-from api.data.market import get_current_price
 from api.trade.position import get_open_position
-
-# todo: compare price every x mins
-
-# todo: if price lower than bias place new order, if higher close certain order
-
-
-# def get_entry_price():
-#     with open('entry_price.txt', 'r') as f:
-#         price = f.read().strip()
-#     return price
 
 
 def calculate_price(symbol, bias):
