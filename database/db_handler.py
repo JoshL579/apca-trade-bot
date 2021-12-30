@@ -43,7 +43,7 @@ def delete_transaction(price):
 
 
 def get_transactions():
-    transactions = session.query(Transactions).all()
+    transactions = session.query(Transactions).order_by(Transactions.price).all()
     res = []
     for transaction in transactions:
         res.append(transaction)
