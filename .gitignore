@@ -32,3 +32,6 @@ instance/
 # VSCode
 .vscode
 
+# db
+*.sqlite
+

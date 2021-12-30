@@ -1,9 +1,11 @@
 from time import sleep
 from service.order import maintain_order
 from datetime import datetime
+from database.db_handler import init_db
 
 
 def maintain_loop(symbol):
+    init_db()
     debugger_count = 0
     print('STARTED! LOOPING...')
     while True:
