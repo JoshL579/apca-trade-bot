@@ -1,4 +1,4 @@
-from database.model import Base, db, Transactions
+from database.model import Base, db, Transactions, Entry
 from sqlalchemy.orm import sessionmaker
 from config import watching_symbol
 from datetime import datetime
@@ -48,3 +48,28 @@ def get_transactions():
     for transaction in transactions:
         res.append(transaction)
     return res
+
+
+def get_entry():
+    entry = session.query(Entry).first()
+    return entry.entry
+
+
+def get_lot_size():
+    entry = session.query(Entry).first()
+    return entry.size
+
+
+def add_entry(size):
+    entry = Entry(
+        instrument=watching_symbol,
+        entry=0,
+        size=size
+    )
+    session.add(entry)
+    try:
+        session.commit()
+    except:
+        session.rollback()
+        return False
+    return True

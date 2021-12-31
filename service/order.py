@@ -10,25 +10,18 @@ def maintain_order(symbol):
         print(get_orders())
         return True
 
-    direction = calculate_price(symbol, bias_to_place_new_order)
+    calculation = calculate_price(symbol, bias_to_place_new_order)
 
-    if not direction:
+    if not calculation:
         return True
 
-    if direction == 'B':
-        current_position = get_open_position(symbol)
-        current_value = current_position.get("market_value")
-        entry_value = current_position.get("cost_basis")
-        amount_to_buy = float(entry_value) - float(current_value)
-        print('Increase One:', amount_to_buy)
-        return place_one_order(symbol, amount_to_buy)
+    if calculation.direction == 'L':
+        print('Increase One:', calculation.amount)
+        return place_one_order(symbol, calculation.amount)
 
-    if direction == 'S':
-        current_position = get_open_position(symbol)
-        current_value = current_position.get("market_value")
-        entry_value = current_position.get("cost_basis")
-        percentage = str((float(current_value) - float(entry_value)) / float(current_value) * 100)
-        print('Reduced One:', percentage + '/100')
-        return close_one_position(symbol, percentage)
+    if calculation.direction == 'S':
+        # todo: change amount to percentage or quantity
+        print('Reduced One:', calculation.amount)
+        return close_one_position(symbol, calculation.amount)
 
     return False
