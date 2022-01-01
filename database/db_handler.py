@@ -73,3 +73,14 @@ def add_entry(size):
         session.rollback()
         return False
     return True
+
+
+def update_entry(new_entry):
+    entry = session.query(Entry).first()
+    entry.entry = new_entry
+    try:
+        session.commit()
+    except:
+        session.rollback()
+        return False
+    return True

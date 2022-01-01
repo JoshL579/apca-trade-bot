@@ -8,6 +8,6 @@ def get_open_position(symbol):
     return res.json()
 
 
-def close_one_position(symbol, percentage):
-    res = requests.delete(f'{apca_action_url}/v2/positions/{symbol}?percentage={percentage}', headers=get_headers())
+def close_one_position(symbol, qty):
+    res = requests.delete(f'{apca_action_url}/v2/positions/{symbol}?qty={qty}', headers=get_headers())
     return res.json()

@@ -22,8 +22,13 @@ def calculate_price(symbol, bias):
     if not direction or not price or not quantity:
         return False
 
-    amount = get_lot_size() * quantity
-    return {'direction': direction, 'amount': amount}
+    if direction == 'L':
+        amount = get_lot_size() * quantity
+        return {'direction': direction, 'amount': amount, 'price': price}
+
+    total = len(get_transactions())
+    shares = float(position.get('qty')) / total * quantity
+    return {'direction': direction, 'shares': shares, 'price': price}
 
 
 def preset_orders(position):
