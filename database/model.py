@@ -13,7 +13,7 @@ class Transactions(Base):
     id = Column(Integer, primary_key=True)
     instrument = Column(String)
     price = Column(Float, unique=True)
-    create_time = Column(DateTime)
+    create_time = Column(String)
 
     def __init__(self, instrument, price, create_time):
         self.instrument = instrument

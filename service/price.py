@@ -37,21 +37,22 @@ def preset_orders(position):
     add_entry(amount)
 
     size = (price_range[1] - price_range[0]) / max_orders
+    print(size)
     market_price = float(position.get('current_price'))
-    prices = []
+    prices = set()
     up_price = down_price = market_price
 
     # down price
     for i in range(int(max_orders / 2)):
-        prices.append(down_price)
+        prices.add(down_price)
         down_price -= size
 
     # up price
     for i in range(int(max_orders / 2)):
-        prices.append(up_price)
+        prices.add(up_price)
         up_price += size
 
-    for price in prices:
+    for price in list(prices):
         add_transaction(price)
 
 

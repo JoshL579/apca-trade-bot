@@ -25,8 +25,10 @@ def add_transaction(price):
     session.add(transaction)
     try:
         session.commit()
+        print('preset trans')
     except:
         session.rollback()
+        # raise Exception
         return False
     return True
 
