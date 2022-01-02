@@ -5,7 +5,6 @@ from config import price_range, max_orders, liquidation_limit
 
 
 def calculate_price(symbol, bias):
-    print(get_entry())
     position = get_open_position(symbol)
 
     # order_not_exist

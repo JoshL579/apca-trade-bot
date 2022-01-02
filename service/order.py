@@ -9,7 +9,6 @@ from database.db_handler import update_entry
 def maintain_order(symbol):
     # already have unfulfilled order waiting for process
     if len(get_orders()) > 0:
-        print(get_orders())
         return True
 
     calculation = calculate_price(symbol, bias_to_place_new_order)
@@ -19,14 +18,12 @@ def maintain_order(symbol):
 
     if calculation['direction'] == 'L':
         print(datetime.isoformat(datetime.now()), 'Increase One:', calculation['amount'])
-        res = place_one_order(symbol, calculation['amount'])
-        print(res)
+        place_one_order(symbol, calculation['amount'])
         return update_entry(calculation['price'])
 
     if calculation['direction'] == 'S':
         print(datetime.isoformat(datetime.now()), 'Reduced One:', calculation['shares'])
-        res = close_one_position(symbol, calculation['shares'])
-        print(res)
+        close_one_position(symbol, calculation['shares'])
         return update_entry(calculation['price'])
 
     return False
