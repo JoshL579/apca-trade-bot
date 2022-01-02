@@ -1,10 +1,11 @@
 from api.trade.position import get_open_position
 from api.account.profile import get_account
-from database.db_handler import get_transactions, add_transaction, get_entry, add_entry, get_lot_size
-from config import price_range, max_orders
+from database.db_handler import get_transactions, add_transaction, get_entry, add_entry, delete_entry, update_entry, get_lot_size
+from config import price_range, max_orders, liquidation_limit
 
 
 def calculate_price(symbol, bias):
+    print(get_entry())
     position = get_open_position(symbol)
 
     # order_not_exist
@@ -32,28 +33,20 @@ def calculate_price(symbol, bias):
 
 
 def preset_orders(position):
+    # clear entry db table
+    if get_entry() is not None:
+        delete_entry()
+
     # create orders
-    amount = float(get_account().get('buying_power')) / max_orders
-    add_entry(amount)
+    size = float(get_account().get('buying_power') * liquidation_limit) / (max_orders + 1)
+    add_entry(float(position.get('avg_entry_price')), size)
 
-    size = (price_range[1] - price_range[0]) / max_orders
-    print(size)
-    market_price = float(position.get('current_price'))
-    prices = set()
-    up_price = down_price = market_price
+    gap = (price_range[1] - price_range[0]) / max_orders
+    price = price_range[0]
 
-    # down price
-    for i in range(int(max_orders / 2)):
-        prices.add(down_price)
-        down_price -= size
-
-    # up price
-    for i in range(int(max_orders / 2)):
-        prices.add(up_price)
-        up_price += size
-
-    for price in list(prices):
+    for i in range(int(max_orders) + 1):
         add_transaction(price)
+        price += gap
 
 
 def get_amounts(current_price):
@@ -68,15 +61,15 @@ def get_amounts(current_price):
                 up_prices.append(transaction.price)
         if len(up_prices) == 0:
             return False, False, False
-        return 'L', max(up_prices), len(up_prices)
+        return 'S', max(up_prices), len(up_prices)
 
     # case price decreased
     if current_price < last_entry:
         for transaction in transactions:
-            if last_entry > transactions.price > current_price:
+            if last_entry > transaction.price > current_price:
                 down_prices.append(transaction.price)
         if len(up_prices) == 0:
             return False, False, False
-        return 'S', min(down_prices), len(down_prices)
+        return 'L', min(down_prices), len(down_prices)
 
     return False, False, False

@@ -9,6 +9,9 @@ bias_to_place_new_order = 2
 price_range = (380, 450)
 max_orders = 35
 
+# max account liquidation usage: 0.00 - 1.00
+liquidation_limit = 1
+
 watching_symbol = 'QQQ'
 
 database_uri = "sqlite:///price.sqlite"

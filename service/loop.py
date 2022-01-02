@@ -10,7 +10,7 @@ def maintain_loop(symbol):
     print('STARTED! LOOPING...')
     while True:
         maintain_order(symbol)
-        sleep(60)
+        sleep(30)
         debugger_count += 1
         if debugger_count > 1440:
             print(datetime.isoformat(datetime.now()), 'LOOPING...')

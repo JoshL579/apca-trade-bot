@@ -25,10 +25,8 @@ def add_transaction(price):
     session.add(transaction)
     try:
         session.commit()
-        print('preset trans')
     except:
         session.rollback()
-        # raise Exception
         return False
     return True
 
@@ -54,7 +52,9 @@ def get_transactions():
 
 def get_entry():
     entry = session.query(Entry).first()
-    return entry.entry
+    if entry:
+        return entry.entry
+    return None
 
 
 def get_lot_size():
@@ -62,10 +62,10 @@ def get_lot_size():
     return entry.size
 
 
-def add_entry(size):
+def add_entry(price, size):
     entry = Entry(
         instrument=watching_symbol,
-        entry=0,
+        entry=price,
         size=size
     )
     session.add(entry)
@@ -80,6 +80,16 @@ def add_entry(size):
 def update_entry(new_entry):
     entry = session.query(Entry).first()
     entry.entry = new_entry
+    try:
+        session.commit()
+    except:
+        session.rollback()
+        return False
+    return True
+
+
+def delete_entry():
+    session.query(Entry).delete()
     try:
         session.commit()
     except:
