@@ -14,4 +14,7 @@ liquidation_limit = 1
 
 watching_symbol = 'QQQ'
 
+# trading hours
+tradingPeriod = ('6:30', '13:00')
+
 database_uri = "sqlite:///price.sqlite"

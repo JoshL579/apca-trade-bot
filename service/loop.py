@@ -2,6 +2,7 @@ from time import sleep
 from service.order import maintain_order
 from datetime import datetime
 from database.db_handler import init_db
+from service.trading_hours import is_trading_hour
 
 
 def maintain_loop(symbol):
@@ -9,6 +10,9 @@ def maintain_loop(symbol):
     debugger_count = 0
     print('STARTED! LOOPING...')
     while True:
+        if not is_trading_hour():
+            sleep(30)
+            continue
         maintain_order(symbol)
         sleep(30)
         debugger_count += 1
