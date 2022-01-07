@@ -18,12 +18,16 @@ def maintain_order(symbol):
 
     if calculation['direction'] == 'L':
         print(datetime.isoformat(datetime.now()), 'Increase One:', calculation['amount'])
-        place_one_order(symbol, calculation['amount'])
-        return update_entry(calculation['price'])
+        res = place_one_order(symbol, calculation['amount'])
+        if res.get('status') == 'accepted':
+            return update_entry(calculation['price'])
+        return False
 
     if calculation['direction'] == 'S':
         print(datetime.isoformat(datetime.now()), 'Reduced One:', calculation['shares'])
-        close_one_position(symbol, calculation['shares'])
-        return update_entry(calculation['price'])
+        res = close_one_position(symbol, calculation['shares'])
+        if res.get('status') == 'accepted':
+            return update_entry(calculation['price'])
+        return False
 
     return False
